@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .navelem {
+      @apply block py-2 px-3 text-white  relative after:content-[""]
+    }
+  
+    .navelem.active {
+      @apply text-blue-700; 
+    }
+    .navelem::after {
+      @apply w-0 bg-blue-100 flex ;
+      /* content: ""; */
+      height: 3px;
+      transition: all 0.3s ease-out; 
+      width: 0;
+      margin: auto;
+    }
+  
+    .navelem:hover::after {
+      @apply w-full; 
+      width: 100%;
+    }
+    nav ul{
+      @apply font-medium flex flex-col p-4 md:p-0 mt-4  border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 bg-transparent items-center
+    }
+   
+  }
