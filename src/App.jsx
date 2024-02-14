@@ -27,7 +27,7 @@ export default function App() {
     <Routes>
         <Route path='login' element={<Login />}/>
         <Route path='signup' element={<Registration/>} />
-        <Route path='/' element={<LayOut/>}>
+      <Route path='/' element={<LayOut/>} onEnter={() => console.log('Entered /')}>
         <Route index element={<div>Home</div>} />
 
         <Route path='dashboard' element={<div>Dashboard</div>} />
