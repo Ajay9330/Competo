@@ -16,6 +16,23 @@ export const userSlice = createSlice({
   },
 });
 
+
+export const loadingSlice = createSlice({
+  name: 'loading',
+  initialState: {
+    loading: false,
+  },
+  reducers: {
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+  },
+});
+
+export const { setLoading } = loadingSlice.actions;
+
+export const selectLoading = (state) => state.loading.loading;
+
 export const { setUser, clearUser } = userSlice.actions;
 
 export const selectUser = (state) => state.user.user;
@@ -23,6 +40,7 @@ export const selectUser = (state) => state.user.user;
 export const store = configureStore({
   reducer: {
     user: userSlice.reducer,
+    loading:loadingSlice.reducer,
     // Add other reducers if needed
   },
 });
