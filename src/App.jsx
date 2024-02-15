@@ -4,8 +4,10 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
+import {store} from './store'
 import {app} from './firebaseconfig/firebaseconfig';
 
+console.log(store);
 function LayOut() {
   return (
     <>

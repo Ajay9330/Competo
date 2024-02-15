@@ -8,25 +8,27 @@ export default function Registration() {
  
 
   return (
-    <div className='flex justify-center items-center flex-col m-20 bg-blue-100 gap-20 p-28'>
-      <h2>Registration Page</h2>
-      <div>
-        <ul className="flex gap-12">
+    <div className='flex   flex-col  w-full'>
+      
+      
+        <ul className="flex gap-12 bg-blue-400 px-20 py-4 justify-center">
           <li
             onClick={()=>{setSelectStudent(true)}}
-            className={`cursor-pointer ${selectStudent ? 'bg-blue-900' : 'bg-blue-400'}`}
+            className={`cursor-pointer ${selectStudent ? 'bg-blue-300 border-2 border-blue px-2 p-1 rounded-lg' : 'bg-blue-100   px-2 p-1 rounded-lg'}`}
           >
             Student
           </li>
           <li
            onClick={()=>{setSelectStudent(false)}}
-            className={`cursor-pointer ${selectStudent ? 'bg-blue-300' : 'bg-blue-900'}`}
+            className={`cursor-pointer ${selectStudent ? 'bg-blue-100  px-2 p-1 rounded-lg' : 'bg-blue-300 border-2 border-blue px-2 p-1 rounded-lg'}`}
           >
             College
           </li>
         </ul>
-      </div>
-      {selectStudent ? <StudentRegistrationForm /> : <CollegeRegistrationForm />}
+    <div className='border-2 border-black pt-6 flex justify-center'>
+    {selectStudent ? <StudentRegistrationForm /> : <CollegeRegistrationForm />}
+    </div>
+     
 
     </div>
   );

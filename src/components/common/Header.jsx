@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-
+import { NavLink ,useNavigate} from 'react-router-dom';
+import {signOut,getAuth} from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../../store';
 function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch(); 
+  const auth = getAuth();
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
-
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      // Dispatch the clearUser action to update the user state in the store
+      dispatch(clearUser());
+      // Redirect to the login page after logout
+      navigate('/login');
+    } catch (error) {
+      console.error('Error logging out:', error.message);
+    }
+  };
   return (
     <>
       <nav className="bg-black bg-opacity-75 sticky top-0 z-20
@@ -67,7 +81,14 @@ function Header() {
                   Dashboard
                 </NavLink>
               </li>
-           
+              <li>
+            <button
+              onClick={handleLogout}
+              className={`navelem cursor-pointer`}
+            >
+              Logout
+            </button>
+          </li>
             </ul>
           </div>
               <div className='flex'>
