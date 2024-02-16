@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Route,Routes,Outlet,useNavigate} from 'react-router-dom'
+import { Route,Routes,Outlet,useNavigate, Navigate} from 'react-router-dom'
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Header from './components/common/Header';
@@ -26,6 +26,20 @@ function LayOut() {
      
   )
 }
+
+function Redirec(){
+  const h=useNavigate();
+  const user = useSelector(selectUser);
+  useEffect(()=>{
+     
+        h('/login');
+   
+  },[user])
+  return(
+    <div>jkhjkh</div>
+  );
+}
+
 export default function App() {
 
   const loading = useSelector(selectLoading);
@@ -68,10 +82,10 @@ export default function App() {
       <Route path='/' element={<LayOut/>}  >
         <Route index element={<div>Home</div>} />
         <Route path='search' element={<div>Search</div>}/>
+        <Route path='competitions' element={<div>Competitions</div>}/>
+        <Route path='view-comp' element={<div>view</div>}/>
         {  user &&  <Route>
                 <Route path='dashboard' element={<div>Dashboard</div>} />
-                <Route path='competitions' element={<div>Competitions</div>}/>
-                <Route path='view-comp' element={<div>view</div>}/>
                 <Route path='apply-comp' element={<div>view</div>}/>
                 <Route path='create-comp' element={<div>view</div>}/>
             </Route>
@@ -80,7 +94,7 @@ export default function App() {
        
       </Route>
       <Route path='login' element={<Login />}/>
-      <Route path='*' element={<div>dfg</div>}  loader={() => {
+      <Route path='*' element={<div>Not verified please Login</div>}  loader={() => {
     console.log("ghjgk"); // "one/two"
   }}/>
 
