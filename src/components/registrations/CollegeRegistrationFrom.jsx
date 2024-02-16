@@ -1,4 +1,4 @@
-import React from 'react';
+import {React ,useState}from 'react';
 import giticon from '../../assets/icons/github.png';
 import gicon from '../../assets/icons/google.png';
 import ficon from '../../assets/icons/facebook.png';
@@ -32,7 +32,7 @@ export default function CollegeRegistrationForm() {
             <h2 className="mt-6 text-3xl font-bold text-gray-900">
               Welcom Back!
             </h2>
-            <p className="mt-2 text-sm text-gray-500">Please sign in to your account</p>
+            <p className="mt-2 text-sm text-gray-500"> Let's start with Competo</p>
           </div>
           <div className="flex flex-row justify-evenly items-center space-x-3">
             <img className=" w-9 h-9  rounded-2xl  hover:shadow-3xl block cursor-pointer transition ease-in duration-300" src={gicon}/>
@@ -78,11 +78,7 @@ export default function CollegeRegistrationForm() {
                 Sign in
               </button>
             </div>
-            <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
-              <span>Don't have an account?</span>
-              <a href="#" className="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300">Sign
-                up</a>
-            </p>
+        
           
         {error && <p className="text-red-500 text-sm">{error}</p>}
           </form>
