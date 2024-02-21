@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
 import { app,auth } from '../firebaseconfig/firebaseconfig';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from 'firebase/auth';
-import { setUser } from '../store'; 
+import { setUserLoginData } from '../store'; 
 import {useNavigate,Link} from 'react-router-dom';
 
 

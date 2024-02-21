@@ -5,7 +5,7 @@ import ficon from '../../assets/icons/facebook.png';
 import { auth } from '../../firebaseconfig/firebaseconfig';
 import {GoogleAuthProvider} from 'firebase/auth';
 import {useDispatch} from 'react-redux';
-import {setUser} from '../../store';
+import {setUserLoginData} from '../../store';
 export default function CollegeRegistrationForm() {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();

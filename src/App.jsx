@@ -7,7 +7,7 @@ import Footer from './components/common/Footer';
 import {selectUser} from './store'
 import {app} from './firebaseconfig/firebaseconfig';
 import Loader from './components/common/Loader';
-import { selectLoading,setLoading,setUser } from './store';
+import { selectLoading,setLoading,setUserLoginData } from './store';
 import {  useSelector ,useDispatch} from 'react-redux';
 import { onAuthStateChanged,getAuth } from 'firebase/auth';
 // console.log(selectLoading);
@@ -57,12 +57,12 @@ export default function App() {
 
       if (authUser) {
         // User is signed in
-        dispatch(setUser(authUser));
+        dispatch(setUserLoginData(authUser));
         // Save user data to localStorage
         localStorage.setItem('authUser', JSON.stringify(authUser));
       } else {
         // User is signed out
-        dispatch(setUser(null));
+        dispatch(setUserLoginData(null));
         // Clear user data from localStorage
         localStorage.removeItem('authUser');
       }

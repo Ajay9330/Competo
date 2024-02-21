@@ -5,7 +5,7 @@ import {ref,uploadBytes,getDownloadURL,} from 'firebase/storage';
 import { app, firestore, storage,auth } from '../../firebaseconfig/firebaseconfig';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
-import { setUser,selectUser } from '../../store';
+import { setUserLoginData,selectUser } from '../../store';
 import{GoogleAuthProvider,GithubAuthProvider,signInWithPopup} from 'firebase/auth';
 import giticon from '../../assets/icons/github.png';
 import gicon from '../../assets/icons/google.png';
@@ -34,7 +34,7 @@ export default function StudentRegistrationForm() {
   };
   useEffect(() => {
     if (user) {
-      // history('/dashboard');
+      history('/dashboard');
     }
   }, [user, history]);
   const [formData, setFormData] = useState({

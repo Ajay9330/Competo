@@ -4,14 +4,19 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null,
+    userData: null,
+    userLoginData: null,
   },
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
+    setUserData: (state, action) => {
+      state.userData = action.payload;
+    },
+    setUserLoginData: (state, action) => {
+      state.userLoginData = action.payload;
     },
     clearUser: (state) => {
-      state.user = null;
+      state.userData = null;
+      state.userLoginData = null;
     },
   },
 });
@@ -33,9 +38,9 @@ export const { setLoading } = loadingSlice.actions;
 
 export const selectLoading = (state) => state.loading.loading;
 
-export const { setUser, clearUser } = userSlice.actions;
+export const {clearUser, setUserData,setUserLoginData } = userSlice.actions;
 
-export const selectUser = (state) => state.user.user;
+export const selectUser = (state) => state.user.userLoginData;
 
 export const store = configureStore({
   reducer: {
