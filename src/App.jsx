@@ -76,29 +76,49 @@ export default function App() {
    
 
    <>
-    <Routes>
-        
-        <Route path='signup' element={<Registration/>} />
-      <Route path='/' element={<LayOut/>}  >
+  <Routes>
+  {user ? (
+    <>
+      <Route path='login' element={<Navigate to="/dashboard" />} />
+      <Route path='signup' element={<Navigate to="/dashboard" />} />
+      <Route path='/' element={<LayOut />}>
         <Route index element={<div>Home</div>} />
-        <Route path='search' element={<div>Search</div>}/>
-        <Route path='competitions' element={<div>Competitions</div>}/>
-        <Route path='view-comp' element={<div>view</div>}/>
-        {  user &&  <Route>
-                <Route path='dashboard' element={<div>Dashboard</div>} />
-                <Route path='apply-comp' element={<div>view</div>}/>
-                <Route path='create-comp' element={<div>view</div>}/>
-            </Route>
-        }
-       
+        <Route path='search' element={<div>Search</div>} />
+        <Route path='competitions' element={<div>Competitions</div>} />
+        <Route path='view-comp' element={<div>View</div>} />
+        <Route path='dashboard' element={<div>Dashboard</div>} />
+        <Route path='apply-comp' element={<div>Apply Competition</div>} />
+        <Route path='create-comp' element={<div>Create Competition</div>} />
+      </Route>
+    </>
+  ) : (
+    <>
+      <Route path='login' element={<Login />} />
+      <Route path='signup' element={<Registration />} />
+      <Route path='/' element={<LayOut />}>
+        <Route index element={<div>Home</div>} />
+        <Route path='search' element={<div>Search</div>} />
+        <Route path='competitions' element={<div>Competitions</div>} />
+        <Route path='view-comp' element={<div>View</div>} />
+        <Route path='dashboard' element={<Navigate to="/login" />} />
+        <Route path='apply-comp' element={<Navigate to="/login" />} />
+        <Route path='create-comp' element={<Navigate to="/login" />} />
        
       </Route>
-      <Route path='login' element={<Login />}/>
-      <Route path='*' element={<div>Not verified please Login</div>}  loader={() => {
-    console.log("ghjgk"); // "one/two"
-  }}/>
+      <Route path='*' element={<div>Not verified, please login</div>} />
+    </>
+  )}
 
-    </Routes>
+  {/* Always show this route for invalid paths */}
+  <Route
+    path='*'
+    element={<div>Not verified, please login</div>}
+    loader={() => {
+      console.log("Not verified, please login");
+    }}
+  />
+</Routes>
+
     <Outlet />
    
   {loading&&  <Loader/>}

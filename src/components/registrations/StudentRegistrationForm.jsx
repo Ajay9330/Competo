@@ -10,6 +10,7 @@ import{GoogleAuthProvider,GithubAuthProvider,signInWithPopup} from 'firebase/aut
 import giticon from '../../assets/icons/github.png';
 import gicon from '../../assets/icons/google.png';
 import ficon from '../../assets/icons/facebook.png';
+import { setLoading } from '../../store';
 
 
 
@@ -21,15 +22,19 @@ export default function StudentRegistrationForm() {
   const gauth=new GoogleAuthProvider();
   const loginWithGoogle = async () => {
     try {
+      dispatch(setLoading(true));
       const result = await signInWithPopup(auth, gauth);
       dispatch(setUser(result.user));
     } catch (error) {
       setError(error.message);
+   
+    }finally{
+      dispatch(setLoading(false))
     }
   };
   useEffect(() => {
     if (user) {
-      history('/dashboard');
+      // history('/dashboard');
     }
   }, [user, history]);
   const [formData, setFormData] = useState({
@@ -62,7 +67,7 @@ export default function StudentRegistrationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    dispatch(setLoading(true));
     try {
       const imageURL = await handleImageUpload();
       const userCredential = await createUserWithEmailAndPassword(
@@ -82,13 +87,17 @@ export default function StudentRegistrationForm() {
       const docData = {
         uid: userCredential.user.uid,
         ...formData,
-        other: JSON.stringify(userCredential),
+        image: imageURL, // Store the download URL instead of the File object
+        // other: { ...userCredential },
       };
       await addDoc(userRef, docData);
       dispatch(setUser(docData));
-      history('/student/dashboard');
+      // history('/student/dashboard');
     } catch (error) {
       console.error('Error registering user:', error.message);
+    }
+    finally{
+      dispatch(setLoading(false));
     }
   };
 
@@ -119,7 +128,10 @@ export default function StudentRegistrationForm() {
         </div>
 
         <div className='md:w-96 p-5 md:border-2 md:border-blue-300 hover:border-blue-700 md:grid grid-cols-1 justify-items-center md:h-96 rounded-3xl hover:shadow-xl'>
-            <img className='h-40 mx-auto md:m-0 rounded-full w-40 border-2 block col-span-1' src={formData.image?URL.createObjectURL(formData.image):""} alt="" />
+            <img className=' h-40 mx-auto md:m-0 rounded-full w-40 border-2 border-gray-300 transition-all cursor-pointer hover:shadow-black hover:shadow-lg  block col-span-1' src={formData.image?URL.createObjectURL(formData.image):""} alt="" />
+          
+            <span className='top-0 hidden md:block'>{formData.email}</span>
+            <div className='hidden md:block h-1 w-full bg-gray-300'></div>
             <p className='w-full text-wrap break-words overflow-auto text-center text-4xl font-medium hidden md:block '>{formData.firstName+formData.lastName}</p>
         </div>
            <form className="mt-8 p-6 space-y-6 grow-0.3" onSubmit={handleSubmit}>
@@ -127,7 +139,7 @@ export default function StudentRegistrationForm() {
               <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
                 FirstName
               </label>
-              <input className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"      type="text"
+              <input className="w-full content-center text-base px-4 py-2 border-b  border-gray-300 focus:outline-none focus:border-indigo-500"      type="text"
           name="firstName"
           value={formData.firstName}
           onChange={handleChange}/>
@@ -137,7 +149,7 @@ export default function StudentRegistrationForm() {
               <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
                 LastName
               </label>
-              <input className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500" type="text"
+              <input className="w-full content-center text-base px-4 py-2 border-b  border-gray-300 focus:outline-none focus:border-indigo-500" type="text"
           name="lastName"
           value={formData.lastName}
           onChange={handleChange}/>
@@ -145,7 +157,7 @@ export default function StudentRegistrationForm() {
             <div className="relative">
             
               <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Email</label>
-              <input className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500" 
+              <input className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none  focus:border-indigo-500" 
                   type="email"
                   name="email"
                   value={formData.email}
@@ -159,7 +171,7 @@ export default function StudentRegistrationForm() {
               <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
                 Password
               </label>
-              <input className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"  type="password"
+              <input className="w-full content-center text-base px-4 py-2 border-b  border-gray-300 focus:outline-none focus:border-indigo-500"  type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}/>
@@ -181,8 +193,8 @@ export default function StudentRegistrationForm() {
               </div>
 
             <div>
-              <button type="submit" className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600  hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
-                Sign in
+              <button type="submit" className="w-full flex justify-center bg-gradient-to-r from-green-500 to-blue-600  hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
+                SIGN UP
               </button>
             </div>
         
