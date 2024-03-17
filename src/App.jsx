@@ -5,11 +5,12 @@ import Registration from './pages/Registration';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import {selectUser} from './store'
-import {app} from './firebaseconfig/firebaseconfig';
+import {app,firestore} from './firebaseconfig/firebaseconfig';
 import Loader from './components/common/Loader';
-import { selectLoading,setLoading,setUserLoginData } from './store';
+import { selectLoading,setLoading,setUserLoginData,setUserData } from './store';
 import {  useSelector ,useDispatch} from 'react-redux';
 import { onAuthStateChanged,getAuth } from 'firebase/auth';
+import {getDoc,doc} from 'firebase/firestore'
 // console.log(selectLoading);
 function LayOut() {
  
@@ -17,7 +18,10 @@ function LayOut() {
     <>
   
      <Header />
+     <div  className="px-2 flex ">
      <Outlet/>
+     </div>
+     
      <Footer/>
     
 
@@ -49,10 +53,10 @@ export default function App() {
 
   const n=useNavigate();
   const auth = getAuth();
-  console.log(auth )
+  // console.log(auth )
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+     const unsubscribe = onAuthStateChanged(auth, async(authUser) => {
       dispatch(setLoading(true));
 
       if (authUser) {
@@ -66,7 +70,19 @@ export default function App() {
         // Clear user data from localStorage
         localStorage.removeItem('authUser');
       }
+      console.log(authUser)
+      // Fetch additional user data from Firestore based on user type
+      const userDocRef = doc(firestore, 'users', authUser.email);
+      const userDocSnap = await getDoc(userDocRef);
+      console.log(userDocSnap)
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        // Set user data in the Redux store
+        dispatch(setUserData(userData));
 
+      } else {
+        console.error('User document not found');
+      }
       dispatch(setLoading(false));
     });
 
@@ -79,9 +95,10 @@ export default function App() {
   <Routes>
   {user ? (
     <>
-      <Route path='login' element={<Navigate to="/dashboard" />} />
-      <Route path='signup' element={<Navigate to="/dashboard" />} />
+
       <Route path='/' element={<LayOut />}>
+        <Route path='login' element={<Navigate to="/dashboard" />} />
+        <Route path='signup' element={<Navigate to="/dashboard" />} />
         <Route index element={<div>Home</div>} />
         <Route path='search' element={<div>Search</div>} />
         <Route path='competitions' element={<div>Competitions</div>} />
@@ -93,19 +110,20 @@ export default function App() {
     </>
   ) : (
     <>
+
+      <Route path='/' element={<LayOut />}>
       <Route path='login' element={<Login />} />
       <Route path='signup' element={<Registration />} />
-      <Route path='/' element={<LayOut />}>
         <Route index element={<div>Home</div>} />
         <Route path='search' element={<div>Search</div>} />
         <Route path='competitions' element={<div>Competitions</div>} />
         <Route path='view-comp' element={<div>View</div>} />
-        <Route path='dashboard' element={<Navigate to="/login" />} />
+        {/* <Route path='dashboard' element={<Navigate to="/login" />} />
         <Route path='apply-comp' element={<Navigate to="/login" />} />
-        <Route path='create-comp' element={<Navigate to="/login" />} />
-       
+        <Route path='create-comp' element={<Navigate to="/login" />} /> */}
+         <Route path='*' element={<Registration/>} />
       </Route>
-      <Route path='*' element={<div>Not verified, please login</div>} />
+    
     </>
   )}
 

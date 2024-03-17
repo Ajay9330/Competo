@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
 import { app,auth } from '../firebaseconfig/firebaseconfig';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from 'firebase/auth';
-import { setUserLoginData } from '../store'; 
+import { setLoading, setUserData, setUserLoginData } from '../store'; 
 import {useNavigate,Link} from 'react-router-dom';
-
+import { doc, getDoc } from 'firebase/firestore';
+import { firestore } from '../firebaseconfig/firebaseconfig'; // Import the firestore instance
 
 
 
@@ -12,22 +13,39 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+
   const dispatch = useDispatch();
   const navigate=useNavigate();
 
 
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      dispatch(setLoading(true));
       const result = await signInWithEmailAndPassword(auth, email, password);
-      dispatch(setUser(result.user));
-      navigate('./dashboard');
+      dispatch(setUserLoginData(result.user));
+  
+      // Fetch additional user data from Firestore based on user type
+      const userDocRef = doc(firestore, 'users', result.user.email);
+      const userDocSnap = await getDoc(userDocRef);
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        // Set user data in the Redux store
+        dispatch(setUserData(userData));
+      } else {
+        console.error('User document not found');
+      }
+  
+      // navigate('./dashboard');
     } catch (error) {
       setError(error.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
   return (
-    <div className='w-screen h-screen flex items-center justify-center'>
+    <div className='w-screen my-24 sm:my-28 flex items-center justify-center'>
 
 <div className="mx-auto  w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
       <form className="space-y-6" onSubmit={handleLogin}>
@@ -41,7 +59,7 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-            placeholder="name@company.com"
+            placeholder=""
             required
           />
         </div>

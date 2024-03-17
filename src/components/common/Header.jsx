@@ -1,47 +1,53 @@
 import React, { useState } from 'react';
 import { NavLink ,useNavigate} from 'react-router-dom';
 import {signOut,getAuth} from 'firebase/auth';
-import { useDispatch } from 'react-redux';
-import { clearUser } from '../../store';
+import { useDispatch,useSelector } from 'react-redux';
+import { clearUser, selectLoading, selectUser,setLoading } from '../../store';
+import logo from '../../assets/logotb.png';
 function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch(); 
+  const isloggedin=useSelector(selectUser);
   const auth = getAuth();
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
   const handleLogout = async () => {
     try {
+      dispatch(setLoading(true));
       await signOut(auth);
-      // Dispatch the clearUser action to update the user state in the store
       dispatch(clearUser());
-      // Redirect to the login page after logout
-      navigate('/login');
     } catch (error) {
       console.error('Error logging out:', error.message);
+    }finally{
+      dispatch(setLoading(false))
     }
   };
   return (
     <>
-      <nav className="bg-black bg-opacity-75 sticky top-0 z-20
-       w-full">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4  top-0 w-full">
+      <nav className="sticky top-0 backdrop-blur-xl bg-black bg-opacity-75 z-20 w-full">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2  top-0 w-full">
           <NavLink
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             {/* Include your logo or text here */}
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Competo
-            </span>
+            <span className="self-center text-5xl rounded-3xl sm:rounded-xl py-1 p-2 font-semibold whitespace-nowrap dark:text-white flex items-center">
+                <span className='font-bold text-blue-200'>C</span>
+                <span className='text-4xl' style={{background: 'linear-gradient(to right, #f32170, #ff6b08,#cf23cf, #eedd44)',
+                  WebkitTextFillColor: 'transparent',
+                  WebkitBackgroundClip: 'text'}}>ompeto</span>
+                {/* <img className='h-8 sm:h-16' src={logo} alt="" /> */}
+          </span>
+
           </NavLink>
           <button
             className="transition-all focus:outline-none md:hidden"
             onClick={toggleNav}
           >
             <svg
-              className="h-6 w-6 text-gray-500"
+              className={`h-6 w-6 text-gray-500 ${isNavOpen?"absolute top-10 z-50 right-10":""}`}
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -57,17 +63,17 @@ function Header() {
             </svg>
           </button>
           <div
-            className={`md:static md:w-auto md:opacity-1 md:text-white md:h-auto md:rounded-none md:bg-transparent ${
-              isNavOpen ? ' z-1 absolute flex h-[100vh] w-full' : ' h-0 w-0  rounded-br-full opacity-1'
-            }  absolute top-16 left-0  md:flex overflow-hidden items-center justify-center transition-all duration-300 ease-in-out bg-black bg-opacity-75`}
+            className={`md:static md:w-auto md:opacity-1 md:text-white backdrop-blur-xl md:h-auto md:rounded-none ${
+              isNavOpen ? ' z-1 absolute -top-0 flex h-[100vh] w-full' : ' h-0 w-0   opacity-1'
+            }  absolute top-16 left-0  md:flex overflow-hidden items-center justify-center transition-all duration-300 ease-in-out bg-black  backdrop-blur-lg`}
             id="navbar-default"
           >
             <ul className="">
               <li>
                 <NavLink
                   to="/competitions"
-                  onClick={toggleNav}
                   className={`navelem `}
+                  onClick={toggleNav}
                 >
                   Competitions
                 </NavLink>
@@ -75,34 +81,35 @@ function Header() {
               <li>
                 <NavLink
                   to="/dashboard"
-                  onClick={toggleNav}
                   className={` navelem`}
+                  onClick={toggleNav}
                 >
                   Dashboard
                 </NavLink>
               </li>
-              <li>
-            <button
-              onClick={handleLogout}
-              className={`navelem cursor-pointer`}
-            >
-              Logout
-            </button>
-          </li>
+          
             </ul>
           </div>
-              <div className='flex'>
+              <div   onClick={()=>{handleLogout();toggleNav()}}
+              className={` flex authbtn cursor-pointer ${isloggedin?"flex":'hidden'}`}>
+            
+            
+       <span class="material-symbols-outlined">
+logout
+</span>
+              </div>
+              <div className={`flex ${!isloggedin?"flex":'hidden'}`} >
               <NavLink
                   to="/login"
-                  onClick={toggleNav}
-                  className={`navelem`}
+
+                  className={`authbtn`}
                 >
                   Login
                 </NavLink>
                 <NavLink
                   to="/signup"
-                  onClick={toggleNav}
-                  className={` hover: navelem `}
+  
+                  className={` authbtn `}
                 >
               <span class="material-symbols-outlined">
 person_add

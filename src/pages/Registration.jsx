@@ -25,7 +25,7 @@ export default function Registration() {
             College
           </li>
         </ul>
-    <div className='border-2 border-black pt-6 flex justify-center'>
+    <div className=' pt-6 flex justify-center'>
     {selectStudent ? <StudentRegistrationForm /> : <CollegeRegistrationForm />}
     </div>
      

@@ -48,6 +48,10 @@ export const store = configureStore({
     loading:loadingSlice.reducer,
     // Add other reducers if needed
   },
+   middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 export default store;

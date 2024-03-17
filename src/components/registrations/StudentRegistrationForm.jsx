@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {getAuth,createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
-import { addDoc,collection,} from 'firebase/firestore';
+import { addDoc,collection,setDoc,doc} from 'firebase/firestore';
 import {ref,uploadBytes,getDownloadURL,} from 'firebase/storage';
 import { app, firestore, storage,auth } from '../../firebaseconfig/firebaseconfig';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
-import { setUserLoginData,selectUser } from '../../store';
+import { setUserLoginData,selectUser,setUserData } from '../../store';
 import{GoogleAuthProvider,GithubAuthProvider,signInWithPopup} from 'firebase/auth';
 import giticon from '../../assets/icons/github.png';
 import gicon from '../../assets/icons/google.png';
@@ -15,6 +15,15 @@ import { setLoading } from '../../store';
 
 
 export default function StudentRegistrationForm() {
+
+// useEffect(()=>{
+//    setDoc(doc(firestore, "cities", "LA"), {
+//     name: "Los Angeles",
+//     state: "CA",
+//     country: "USA"
+//   });
+// })
+
   const history = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
@@ -24,7 +33,8 @@ export default function StudentRegistrationForm() {
     try {
       dispatch(setLoading(true));
       const result = await signInWithPopup(auth, gauth);
-      dispatch(setUser(result.user));
+      dispatch(setUserLoginData(result.user));
+      console.log(result.user);
     } catch (error) {
       setError(error.message);
    
@@ -32,11 +42,7 @@ export default function StudentRegistrationForm() {
       dispatch(setLoading(false))
     }
   };
-  useEffect(() => {
-    if (user) {
-      history('/dashboard');
-    }
-  }, [user, history]);
+
   const [formData, setFormData] = useState({
     usertype: 'student',
     firstName: '',
@@ -56,14 +62,23 @@ export default function StudentRegistrationForm() {
   };
 
   const handleImageUpload = async () => {
-    if (formData.image) {
-      const storageRef = ref(storage, `profileImages/${formData.email}`);
-      await uploadBytes(storageRef, formData.image, 'data_url');
-      const downloadURL = await getDownloadURL(storageRef);
-      return downloadURL;
+    try {
+      if (formData.image) {
+        const storageRef = ref(storage, `profileImages/${formData.email}`);
+        setLoading(true);
+        await uploadBytes(storageRef, formData.image, 'data_url');
+        const downloadURL = await getDownloadURL(storageRef);
+        setLoading(false);
+        return downloadURL;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      setLoading(false);
+      throw error;
     }
-    return null;
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,15 +98,14 @@ export default function StudentRegistrationForm() {
       });
 
 
-      const userRef = collection(firestore, 'users');
-      const docData = {
+      const docData = {  
         uid: userCredential.user.uid,
         ...formData,
         image: imageURL, // Store the download URL instead of the File object
-        // other: { ...userCredential },
       };
-      await addDoc(userRef, docData);
-      dispatch(setUser(docData));
+      const userEmail = formData.email;
+      await setDoc(doc(firestore, 'users', userEmail),docData);
+      dispatch(setUserData({...docData,userEmail}));
       // history('/student/dashboard');
     } catch (error) {
       console.error('Error registering user:', error.message);
@@ -127,7 +141,7 @@ export default function StudentRegistrationForm() {
          
         </div>
 
-        <div className='md:w-96 p-5 md:border-2 md:border-blue-300 hover:border-blue-700 md:grid grid-cols-1 justify-items-center md:h-96 rounded-3xl hover:shadow-xl'>
+        <div className='md:w-96 pt-6 md:border-2 md:border-blue-300 hover:border-blue-700 md:grid grid-cols-1 justify-items-center md:h-96 rounded-3xl hover:shadow-xl'>
             <img className=' h-40 mx-auto md:m-0 rounded-full w-40 border-2 border-gray-300 transition-all cursor-pointer hover:shadow-black hover:shadow-lg  block col-span-1' src={formData.image?URL.createObjectURL(formData.image):""} alt="" />
           
             <span className='top-0 hidden md:block'>{formData.email}</span>
