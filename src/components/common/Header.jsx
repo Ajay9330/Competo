@@ -26,8 +26,8 @@ function Header() {
   };
   return (
     <>
-      <nav className="sticky top-0 backdrop-blur-xl bg-black bg-opacity-75 z-20 w-full">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2  top-0 w-full">
+      <nav className="sticky top-0 py-1 backdrop-blur-xl bg-black bg-opacity-70 z-20 w-full  border-b-2 border-blue-600">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4  top-0 w-full ">
           <NavLink
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -63,9 +63,9 @@ function Header() {
             </svg>
           </button>
           <div
-            className={`md:static md:w-auto md:opacity-1 md:text-white backdrop-blur-xl md:h-auto md:rounded-none ${
+            className={`md:static md:w-auto md:opacity-1 md:text-white backdrop-blur-xl md:h-auto  md:px-2 md:rounded-3xl ${
               isNavOpen ? ' z-1 absolute -top-0 flex h-[100vh] w-full' : ' h-0 w-0   opacity-1'
-            }  absolute top-16 left-0  md:flex overflow-hidden items-center justify-center transition-all duration-300 ease-in-out bg-black  backdrop-blur-lg`}
+            }  absolute  left-0  md:flex overflow-hidden items-center justify-center transition-all duration-300 ease-in-out bg-black  backdrop-blur-lg`}
             id="navbar-default"
           >
             <ul className="">

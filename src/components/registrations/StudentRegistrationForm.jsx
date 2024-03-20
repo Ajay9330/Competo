@@ -34,7 +34,20 @@ export default function StudentRegistrationForm() {
       dispatch(setLoading(true));
       const result = await signInWithPopup(auth, gauth);
       dispatch(setUserLoginData(result.user));
-      console.log(result.user);
+      console.log(JSON.stringify(result))
+      const docData = {  
+        uid: result.user.uid,
+        usertype: 'student',
+        firstName: result.user.displayName,
+        email: result.user.email,
+        password:"",
+        image: result.user.photoURL,
+      };
+      console.log(docData);
+      await setDoc(doc(firestore, 'users', docData.email),docData);
+      dispatch(setUserData(docData));
+   
+      console.log(result);
     } catch (error) {
       setError(error.message);
    
@@ -207,7 +220,7 @@ export default function StudentRegistrationForm() {
               </div>
 
             <div>
-              <button type="submit" className="w-full flex justify-center bg-gradient-to-r from-green-500 to-blue-600  hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
+              <button type="submit" className="w-full flex justify-center bg-black text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
                 SIGN UP
               </button>
             </div>
