@@ -26,11 +26,12 @@
   }
 
   .feature-card {
-    @apply bg-blue-500
+    @apply bg-purple-600 ;
   }
 
+
   .btn-signup {
-    @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1;
+    @apply bg-purple-600 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1;
   }
 
 }

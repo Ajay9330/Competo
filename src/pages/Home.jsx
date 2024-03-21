@@ -13,31 +13,31 @@ export default function Home() {
         <p className="text-lg text-gray-800">Explore, Learn, Share, Grow...</p>
         </div>
           <div>
-          <img src={designer} alt="" />
+          <img className=' mix-blend-multiply' src={designer} alt="" />
             </div>
       </header>
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4 text-gray-700">Why Competo?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="feature-card  p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:bg-opacity-85">
+          <div className="feature-card bg-yellow-500   p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:bg-opacity-85">
             <img src={compete} alt="Feature 1" className="h-32 w-32 mb-4 object-cover rounded-full" />
-            <h3 className="text-lg font-semibold mb-2 text-gray-900">Explore Competitions</h3>
+            <h3 className="text-lg font-bold mb-2 text-gray-900">Explore Competitions</h3>
             <p className="text-base text-gray-800">Discover various competitions from different fields such as coding, art, sports, and more. Showcase your talent and learn new skills.</p>
           </div>
-          <div className="feature-card  p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:bg-opacity-85">
+          <div className="feature-card bg-blue-600  p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:bg-opacity-85">
             <img src={fiter} alt="Feature 2" className="h-32 w-32 mb-4 object-cover rounded-full" />
-            <h3 className="text-lg font-semibold mb-2 text-gray-900">Filter and Customize</h3>
-            <p className="text-base text-gray-800">Easily filter competitions based on your interests, location, prize, and whether they are remote or in-person. Customize your competition search for the best fit.</p>
+            <h3 className="text-lg font-bold mb-2 text-gray-100">Filter and Customize</h3>
+            <p className="text-base text-gray-100">Easily filter competitions based on your interests, location, prize, and whether they are remote or in-person. Customize your competition search for the best fit.</p>
           </div>
-          <div className="feature-card  p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:bg-opacity-85">
+          <div className="feature-card bg-green-600 p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:bg-opacity-85">
             <img src={centralize} alt="Feature 3" className="h-32 w-32 mb-4 object-cover rounded-full" />
-            <h3 className="text-lg font-semibold mb-2 text-gray-900">Centralized Platform</h3>
-            <p className="text-base text-gray-800">Competo provides a centralized platform where you can find and join competitions from various sources. No need to search multiple websites anymore.</p>
+            <h3 className="text-lg font-bold mb-2 text-gray-100">Centralized Platform</h3>
+            <p className="text-base text-white ">Competo provides a centralized platform where you can find and join competitions from various sources. No need to search multiple websites anymore.</p>
           </div>
-          <div className="feature-card  p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:bg-opacity-85">
+          <div className="feature-card bg-slate-400  p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:bg-opacity-85">
             <img src={shocase} alt="Feature 4" className=" h-32 w-32 mb-4 object-cover rounded-full" />
-            <h3 className="text-lg font-semibold mb-2 text-gray-900">Showcase Your Talent</h3>
-            <p className="text-base text-gray-800">Competo allows you to showcase your talent and skills to a wider audience. Participate in competitions, win prizes, and gain recognition.</p>
+            <h3 className="text-lg  mb-2 font-bold text-gray-900">Showcase Your Talent</h3>
+            <p className="text-base text-zinc-900">Competo allows you to showcase your talent and skills to a wider audience. Participate in competitions, win prizes, and gain recognition.</p>
           </div>
         </div>
       </section>

@@ -5,7 +5,7 @@ import Registration from './pages/Registration';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import { selectUser } from './store'
-import {  firestore } from './firebaseconfig/firebaseconfig';
+import { firestore } from './firebaseconfig/firebaseconfig';
 import Loader from './components/common/Loader';
 import { selectLoading, setLoading, setUserLoginData, setUserData } from './store';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,22 +14,21 @@ import { getDoc, doc } from 'firebase/firestore'
 import Home from './pages/Home';
 import Search from './pages/Search';
 import ViewComp from './pages/ViewComp';
+import bg from './assets/bg/bg3.jpg';
 // console.log(selectLoading);
 function LayOut() {
 
   return (
     <>
-
+    <div className={" " } style={{backgroundSize:"contain"}}>
       <Header />
-      <div className="px-2 flex  ">
+      <div className="px-2 flex">
         <Outlet />
       </div>
-
       <Footer />
-
-
-
-    </>
+    </div>
+  </>
+  
 
   )
 }
