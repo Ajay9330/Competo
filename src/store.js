@@ -41,6 +41,7 @@ export const selectLoading = (state) => state.loading.loading;
 export const {clearUser, setUserData,setUserLoginData } = userSlice.actions;
 
 export const selectUser = (state) => state.user.userLoginData;
+export const selectUserdata=(state)=>state.user.userData;
 
 export const store = configureStore({
   reducer: {

@@ -7,7 +7,7 @@ import Footer from './components/common/Footer';
 import { selectUser } from './store'
 import { firestore } from './firebaseconfig/firebaseconfig';
 import Loader from './components/common/Loader';
-import { selectLoading, setLoading, setUserLoginData, setUserData } from './store';
+import { selectLoading, setLoading, setUserLoginData, setUserData,selectUserdata } from './store';
 import { useSelector, useDispatch } from 'react-redux';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { getDoc, doc } from 'firebase/firestore'
@@ -15,6 +15,10 @@ import Home from './pages/Home';
 import Search from './pages/Search';
 import ViewComp from './pages/ViewComp';
 import bg from './assets/bg/bg3.jpg';
+import Competition from './pages/Competition';
+import CreateCompPage from './pages/CreateCompPage';
+import ApplyPage from './pages/ApplyPage';
+
 // console.log(selectLoading);
 function LayOut() {
 
@@ -50,6 +54,7 @@ export default function App() {
 
   const loading = useSelector(selectLoading);
   const user = useSelector(selectUser);
+  const userdata=useSelector(selectUserdata);
   const dispatch = useDispatch();
   // const navigate = useNavigate();
 
@@ -105,11 +110,16 @@ export default function App() {
               <Route path='signup' element={<Navigate to="/dashboard" />} />
               <Route index element={<Home />} />
               <Route path='search' element={<Search />} />
-              <Route path='competitions' element={<Search />} />
+              <Route path='competitions' element={<Competition/>} />
               <Route path='view-comp' element={<ViewComp />} />
               <Route path='dashboard' element={<div>Dashboard</div>} />
-              <Route path='apply-comp' element={<div>Apply Competition</div>} />
-              <Route path='create-comp' element={<div>Create Competition</div>} />
+              {userdata.usertype=="student" ?(<>
+                <Route path='my-comp' element={<ApplyPage/>} />
+              </>):
+              (<>
+              </>)}
+    
+              <Route path='create-comp' element={<CreateCompPage/>} />
             </Route>
           </>
         ) : (
@@ -120,7 +130,7 @@ export default function App() {
               <Route path='signup' element={<Registration />} />
               <Route index element={<Home />} />
               <Route path='search' element={<Search />} />
-              <Route path='competitions' element={<Search />} />
+              <Route path='competitions' element={<Competition/>} />
               <Route path='view-comp' element={<ViewComp />} />
               {/* <Route path='dashboard' element={<Navigate to="/login" />} />
         <Route path='apply-comp' element={<Navigate to="/login" />} />

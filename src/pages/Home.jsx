@@ -6,18 +6,19 @@ import shocase from "../assets/illustrators/showcase.svg";
 import designer from "../assets/illustrators/designer-girl.avif"
 export default function Home() {
   return (
-    <div className="container mx-auto px-4">
+    
+    <div className="container mx-auto p-4">
       <header className="text-center mt-8 mb-12 flex flex-col sm:flex-row items-center">
         <div>
-        <h1 className="text-6xl font-bold mb-4 text-blue-700">Welcome to Competo</h1>
-        <p className="text-lg text-gray-800">Explore, Learn, Share, Grow...</p>
+        <h1 className="text-6xl font-bold mb-4 text-blue-700 duration-700 hover:hue-rotate-180 lg:text-9xl">Welcome to Competo</h1>
+        <p className="text-lg md:text-3xl font-bold pt-10 text-gray-800  hover:hue-rotate-380">Explore, Learn, Share, Grow...</p>
         </div>
           <div>
-          <img className=' mix-blend-multiply' src={designer} alt="" />
+          <img className=' transition-all duration-700 shadow-inner  hover:hue-rotate-90 mix-blend-multiply' src={designer} alt="" />
             </div>
       </header>
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-4 text-gray-700">Why Competo?</h2>
+      <section className="py-12">
+        <h2 className="text-2xl sm:text-5xl pb-4 font-bold mb-4  text-gray-700">Why Competo?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="feature-card bg-yellow-500   p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:bg-opacity-85">
             <img src={compete} alt="Feature 1" className="h-32 w-32 mb-4 object-cover rounded-full" />
@@ -51,6 +52,8 @@ export default function Home() {
       <footer className="text-center pb-8">
         <p className="text-lg text-gray-800">&copy; 2024 Competo. All rights reserved.</p>
       </footer>
+
     </div>
+  
   );
 }

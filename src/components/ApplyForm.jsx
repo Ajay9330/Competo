@@ -1,24 +1,49 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
 
 export default function ApplyForm() {
-  const { register, handleSubmit, errors } = useForm();
-
-  const onSubmit = (data) => {
-    // Handle form submission logic
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
     console.log(data);
+    // Handle form submission logic here
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onSubmit}>
       <label>
         Full Name:
-        <input type="text" name="fullName" ref={register({ required: 'This field is required' })} />
-        {errors.fullName && <p>{errors.fullName.message}</p>}
+        <input type="text" name="fullName" required />
       </label>
-
+      <label>
+        Email:
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Phone Number:
+        <input type="tel" name="phoneNumber" required />
+      </label>
+      <label>
+        Address:
+        <input type="text" name="address" />
+      </label>
+      <label>
+        City:
+        <input type="text" name="city" />
+      </label>
+      <label>
+        State:
+        <input type="text" name="state" />
+      </label>
+      <label>
+        Zip Code:
+        <input type="text" name="zipCode" />
+      </label>
+      <label>
+        Country:
+        <input type="text" name="country" />
+      </label>
       {/* Add more form fields as needed */}
-
       <button type="submit">Submit</button>
     </form>
   );
