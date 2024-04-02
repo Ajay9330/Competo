@@ -21,38 +21,56 @@ export const userSlice = createSlice({
   },
 });
 
-
 export const loadingSlice = createSlice({
   name: 'loading',
   initialState: {
     loading: false,
+    message: null,
+    messageType: null, // can be 'error', 'success', or 'normal'
   },
   reducers: {
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
+    setMessage: (state, action) => {
+      state.message = action.payload;
+    },
+    setMessageType: (state, action) => {
+      state.messageType = action.payload;
+    },
+    clearMessage: (state) => {
+      state.message = null;
+      state.messageType = null;
+    },
   },
 });
 
-export const { setLoading } = loadingSlice.actions;
+export const {
+  setLoading,
+  setMessage,
+  setMessageType,
+  clearMessage,
+} = loadingSlice.actions;
 
 export const selectLoading = (state) => state.loading.loading;
+export const selectMessage = (state) => state.loading.message;
+export const selectMessageType = (state) => state.loading.messageType;
 
-export const {clearUser, setUserData,setUserLoginData } = userSlice.actions;
+export const { clearUser, setUserData, setUserLoginData } = userSlice.actions;
 
 export const selectUser = (state) => state.user.userLoginData;
-export const selectUserdata=(state)=>state.user.userData;
+export const selectUserdata = (state) => state.user.userData;
 
 export const store = configureStore({
   reducer: {
     user: userSlice.reducer,
-    loading:loadingSlice.reducer,
+    loading: loadingSlice.reducer,
     // Add other reducers if needed
   },
-   middleware: (getDefaultMiddleware) =>
-  getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;

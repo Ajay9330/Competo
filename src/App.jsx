@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { Route, Routes, Outlet, useNavigate, Navigate } from 'react-router-dom'
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
-import { selectUser } from './store'
+import { selectMessage, selectUser } from './store'
 import { firestore } from './firebaseconfig/firebaseconfig';
 import Loader from './components/common/Loader';
 import { selectLoading, setLoading, setUserLoginData, setUserData,selectUserdata } from './store';
 import { useSelector, useDispatch } from 'react-redux';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
-import { getDoc, doc } from 'firebase/firestore'
+import { getDoc, doc,collection,onSnapshot } from 'firebase/firestore'
 import Home from './pages/Home';
 import Search from './pages/Search';
 import ViewComp from './pages/ViewComp';
@@ -18,6 +18,8 @@ import bg from './assets/bg/bg3.jpg';
 import Competition from './pages/Competition';
 import CreateCompPage from './pages/CreateCompPage';
 import ApplyPage from './pages/ApplyPage';
+import Dash from './pages/Dash';
+import Message from './components/common/Message';
 
 // console.log(selectLoading);
 function LayOut() {
@@ -49,55 +51,78 @@ function Redirec() {
     <div>jkhjkh</div>
   );
 }
-
 export default function App() {
-
+  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
   const loading = useSelector(selectLoading);
   const user = useSelector(selectUser);
-  const userdata=useSelector(selectUserdata);
+  const userdata = useSelector(selectUserdata);
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
-
-  // const n = useNavigate();
   const auth = getAuth();
-  // console.log(auth )
+  const message=useSelector(selectMessage);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
-      dispatch(setLoading(true));
+    const fetchData = async () => {
+      try {
+        dispatch(setLoading(true));
 
-      if (authUser) {
-        // User is signed in
-        dispatch(setUserLoginData(authUser));
-        const userDocRef = doc(firestore, 'users', authUser.email);
-        const userDocSnap = await getDoc(userDocRef);
-        console.log(userDocSnap)
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data();
-          // Set user data in the Redux store
-          dispatch(setUserData(userData));
+        const authUser = await new Promise((resolve, reject) => {
+          const unsubscribe = onAuthStateChanged(auth, (user) => {
+            resolve(user);
+            unsubscribe();
+          });
+        });
 
+        if (authUser) {
+          dispatch(setUserLoginData(authUser));
+          const userDocRef = doc(firestore, 'users', authUser.email);
+          const userDocSnap = await getDoc(userDocRef);
+
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            dispatch(setUserData(userData));
+
+            const unsubscribeSnapshot = onSnapshot(userDocRef, (doc) => {
+              if (doc.exists()) {
+                const updatedUserData = doc.data();
+                dispatch(setUserData(updatedUserData));
+              } else {
+                console.error('User document not found');
+              }
+            });
+
+            // Set initial data loaded to true after fetching initial data
+            setInitialDataLoaded(true);
+
+            return () => unsubscribeSnapshot();
+          } else {
+            console.error('User document not found');
+          }
+
+          localStorage.setItem('authUser', JSON.stringify(authUser));
         } else {
-          console.error('User document not found');
+          dispatch(setUserLoginData(null));
+          dispatch(setUserData(null));
+          localStorage.removeItem('authUser');
         }
-        // Save user data to localStorage
-        localStorage.setItem('authUser', JSON.stringify(authUser));
-      } else {
-        // User is signed out
-        dispatch(setUserLoginData(null));
-        // Clear user data from localStorage
-        localStorage.removeItem('authUser');
+
+        dispatch(setLoading(false));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        dispatch(setLoading(false));
       }
-      console.log(authUser)
-      // Fetch additional user data from Firestore based on user type
+    };
 
+    fetchData();
+  }, [dispatch, auth]);
 
+  // Set loading to false after initial data is loaded
+  useEffect(() => {
+    if (initialDataLoaded) {
       dispatch(setLoading(false));
-    });
-
-    return () => unsubscribe();
-  }, [dispatch]);
-  return (
+    }
+  }, [initialDataLoaded, dispatch]);
+  
+    return (
 
 
     <>
@@ -112,14 +137,15 @@ export default function App() {
               <Route path='search' element={<Search />} />
               <Route path='competitions' element={<Competition/>} />
               <Route path='view-comp' element={<ViewComp />} />
-              <Route path='dashboard' element={<div>Dashboard</div>} />
-              {userdata.usertype=="student" ?(<>
+              <Route path='dashboard' element={<Dash/>} />
+              {userdata && userdata.usertype=="student"&& (<>
+                
                 <Route path='my-comp' element={<ApplyPage/>} />
-              </>):
-              (<>
               </>)}
-    
-              <Route path='create-comp' element={<CreateCompPage/>} />
+              {userdata && userdata.usertype=="student" &&(<>
+                <Route path='create-comp' element={<CreateCompPage/>} />
+              </>)}
+
             </Route>
           </>
         ) : (
@@ -152,7 +178,7 @@ export default function App() {
       </Routes>
 
       <Outlet />
-
+      {message && <Message/>}
       {loading && <Loader />}
     </>
   )

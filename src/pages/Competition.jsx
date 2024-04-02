@@ -22,20 +22,18 @@ const comp1={
 
 function Competition() {
   return (
-    <div className='relative grid md:grid-cols-[400px_auto]'>
+    <div className='flex-1'>
     
 
-          <div className=' flex gap-5 flex-wrap w-full sm:p-5'>
+          <div className=' grid gap-5 sm:grid-cols-2 lg:grid-cols-3  flex-wrap w-full sm:p-5'>
         
             <CompCard competition={comp1}/>
             <CompCard competition={comp1}/>
             <CompCard competition={comp1}/>
             <CompCard competition={comp1}/>
         </div>
-        <div className=' max-h-screen sticky bottom-0 top-[0px]  bg-blue-300 w-full'>
-              <p className=''>hi</p>
-          </div>
-      
+
+  
     </div>
       
     

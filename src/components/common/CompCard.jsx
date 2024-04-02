@@ -19,18 +19,18 @@ export default function CompCard({ competition }) {
   }, []); // Added empty dependency array to run the effect only once
 
   return (
-    <div  className="  bg-black bg-opacity-90 backdrop-blur-3xl text-white  rounded-xl  p-4 w-full max-w-[500px] mx-auto">
+    <div  className=" bg-gradient-to-br from-neutral-900 to-zinc-700 backdrop-blur-3xl text-white  rounded-xl  p-4 w-full max-w-[500px] mx-auto">
       <div className="flex w-full  items-center border-y-[1px]  border-slate-700 px-4 ">
         <img src={cardbg} alt="collegelogo" className="min-w-16  h-16" />
         <div className='p-3'>
-        <h3 className=' text-blue-300 font-bold sm:text-2xl capitalize'>{competition.title}</h3>
-        <p>Deadline-Remain:<span>{competition.endRegistrationDate-competition.startregistrationDate }</span></p>
-        <p>competiton.coll</p>
+        <h3 className=' text-blue-300 font-bold sm:text-lg capitalize'>{competition.title}</h3>
+        <p class="text-sm">Deadline-Remain:<span>{competition.endRegistrationDate-competition.startregistrationDate }</span></p>
+        <p class="text-sm">competiton.coll</p>
         </div>
       </div>
       <div className='w-full '>
       </div>
-      <p className=" mt-4 px-3 pb-2 rounded-md bg-gray-300 text-black line-clamp-2 sm:line-clamp-none"> <span className='text-blue-600 font-medium'>Description:</span> {competition.description}</p>
+      <p className=" mt-4 px-3 pb-2 rounded-md bg-gray-300 text-black line-clamp-3 sm:line-clamp-4"> <span className='text-blue-600 font-medium'>Description:</span> {competition.description}</p>
       <div className=" pt-4 w-full flex justify-around items-center">
       
         <Link className='hover:bg-blue-500 bg-blue-400 text-white px-4 py-1 rounded-lg' to="">View</Link>

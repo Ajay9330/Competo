@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {getAuth,createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
-import { addDoc,collection,setDoc,doc} from 'firebase/firestore';
+import { addDoc,collection,setDoc,doc,getDoc} from 'firebase/firestore';
 import {ref,uploadBytes,getDownloadURL,} from 'firebase/storage';
 import { app, firestore, storage,auth } from '../../firebaseconfig/firebaseconfig';
 import { useNavigate } from 'react-router-dom';
@@ -92,41 +92,51 @@ export default function StudentRegistrationForm() {
     }
   };
   
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
+  
     try {
-      const imageURL = await handleImageUpload();
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-
-      await updateProfile(userCredential.user, {
-        displayName: `${formData.firstName} ${formData.lastName}`,
-        photoURL: imageURL,
-        usertype:formData.usertype,
-      });
-
-
-      const docData = {  
-        uid: userCredential.user.uid,
-        ...formData,
-        image: imageURL, // Store the download URL instead of the File object
-      };
-      const userEmail = formData.email;
-      await setDoc(doc(firestore, 'users', userEmail),docData);
-      dispatch(setUserData({...docData,userEmail}));
-      // history('/student/dashboard');
+      const userRef = doc(firestore, 'users', formData.email);
+      const userSnap = await getDoc(userRef);
+  
+      if (userSnap.exists()) {
+        // User already exists, do not update data, just login
+        console.log('User already exists in Firestore');
+        // Perform login or any other action
+      } else {
+        // User doesn't exist, proceed with registration and data update
+        const imageURL = await handleImageUpload();
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+  
+        await updateProfile(userCredential.user, {
+          displayName: `${formData.firstName} ${formData.lastName}`,
+          photoURL: imageURL,
+          usertype: formData.usertype,
+        });
+  
+        const docData = {  
+          uid: userCredential.user.uid,
+          ...formData,
+          image: imageURL, // Store the download URL instead of the File object
+        };
+  
+        const userEmail = formData.email;
+        await setDoc(userRef, docData);
+        dispatch(setUserData({...docData, userEmail}));
+        // history('/student/dashboard');
+      }
     } catch (error) {
       console.error('Error registering user:', error.message);
-    }
-    finally{
+    } finally {
       dispatch(setLoading(false));
     }
   };
+  
 
   return (
   
@@ -135,14 +145,9 @@ export default function StudentRegistrationForm() {
       
         <div className=" md:flex flex-wrap items-center justify-evenly gap-x-11">
         <div className=' min-w-[90vw]'>
-          <div className="text-center">
-            <h2 className="mt-6 text-3xl font-bold text-gray-900">
-              Welcom Back!
-            </h2>
-            <p className="mt-2 text-sm text-gray-500"> Let's start with Competo</p>
-          </div>
+
           <div className="flex flex-row justify-evenly items-center space-x-3">
-            <img onClick={loginWithGoogle} className=" w-9 h-9  rounded-2xl  hover:shadow-3xl block cursor-pointer transition ease-in duration-300" src={gicon}/>
+            <img onClick={loginWithGoogle} className="w-9 h-9  rounded-2xl  hover:shadow-3xl block cursor-pointer transition ease-in duration-300" src={gicon}/>
           <img className="w-9 h-9  rounded-2xl  hover:shadow-3xl block cursor-pointer transition ease-in duration-300" src={giticon}/>
            <img src={ficon} className="w-9 h-9  rounded-2xl  hover:shadow-3xl block cursor-pointer transition ease-in duration-300"/>
           </div>
@@ -154,14 +159,13 @@ export default function StudentRegistrationForm() {
          
         </div>
 
-        <div className='md:w-96 pt-6 md:border-2 md:border-blue-300 hover:border-blue-700 md:grid grid-cols-1 justify-items-center md:h-96 rounded-3xl hover:shadow-xl'>
-            <img className=' h-40 mx-auto md:m-0 rounded-full w-40 border-2 border-gray-300 transition-all cursor-pointer hover:shadow-black hover:shadow-lg  block col-span-1' src={formData.image?URL.createObjectURL(formData.image):""} alt="" />
-          
+        <div className='md:w-96 pt-4 md:border-2 md:border-blue-600 hover:border-blue-900 md:grid grid-cols-1 justify-items-center md:h-96 rounded-3xl hover:shadow-xl'>
+            <img className=' h-40 mx-auto md:m-0 rounded-full w-40 border-2 border-gray-300 transition-all cursor-pointer shadow-sm shadow-black hover:shadow-md  block col-span-1' src={formData.image?URL.createObjectURL(formData.image):""} alt="" />
             <span className='top-0 hidden md:block'>{formData.email}</span>
             <div className='hidden md:block h-1 w-full bg-gray-300'></div>
-            <p className='w-full text-wrap break-words overflow-auto text-center text-4xl font-medium hidden md:block '>{formData.firstName+formData.lastName}</p>
+            <p className='w-full text-wrap break-words overflow-auto text-center text-4xl font-medium hidden md:block '>{formData.firstName+" "+formData.lastName}</p>
         </div>
-           <form className="mt-8 p-6 space-y-6 grow-0.3" onSubmit={handleSubmit}>
+           <form className="pt-0 p-6 space-y-6 grow-0.3" onSubmit={handleSubmit}>
           <div className="mt-8 content-center">
               <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
                 FirstName

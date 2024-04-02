@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { collection, addDoc,doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { firestore } from '../firebaseconfig/firebaseconfig'; // Import your Firebase configuration
-
+import { selectUserdata } from '../store';
+import { useSelector } from 'react-redux';
 function CreateCompPage() {
+    
   const [formData, setFormData] = useState({
     title: '',
     startRegistrationDate: '',
@@ -11,7 +13,7 @@ function CreateCompPage() {
     prize: '',
     description: '',
     postedBy: '', // Assuming this is the name of the college or organization posting the competition
-    collegeId: 'w4pkETM0Xs2gotQUMaSF', // ID of the college
+    collegeId: useSelector(selectUserdata).uid, // ID of the college
     rules: [''], // Initialize rules array with one empty string
     contact: '',
     eligibility: '',

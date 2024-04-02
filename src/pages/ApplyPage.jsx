@@ -1,5 +1,5 @@
 import React from 'react';
-import ApplyForm from '../components/ApplyForm';
+import ApplyForm from '../components/completeprofile/CompleteRegStudent';
 
 export default function ApplyPage() {
   return (
