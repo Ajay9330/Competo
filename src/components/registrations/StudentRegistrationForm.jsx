@@ -14,16 +14,7 @@ import { setLoading } from '../../store';
 
 
 
-export default function StudentRegistrationForm() {
-
-// useEffect(()=>{
-//    setDoc(doc(firestore, "cities", "LA"), {
-//     name: "Los Angeles",
-//     state: "CA",
-//     country: "USA"
-//   });
-// })
-
+export default function studentRegistrationForm() {
   const history = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
@@ -33,28 +24,39 @@ export default function StudentRegistrationForm() {
     try {
       dispatch(setLoading(true));
       const result = await signInWithPopup(auth, gauth);
-      dispatch(setUserLoginData(result.user));
-      console.log(JSON.stringify(result))
-      const docData = {  
-        uid: result.user.uid,
-        usertype: 'student',
-        firstName: result.user.displayName,
-        email: result.user.email,
-        password:"",
-        image: result.user.photoURL,
-      };
-      console.log(docData);
-      await setDoc(doc(firestore, 'users', docData.email),docData);
-      dispatch(setUserData(docData));
-   
-      console.log(result);
+      dispatch(setUserLoginData(result.user)); // Dispatch setUserLoginData action with user data
+      console.log(JSON.stringify(result));
+  
+      const userRef = doc(firestore, 'users', result.user.email);
+      const userSnap = await getDoc(userRef);
+  
+      if (userSnap.exists()) {
+        // User already exists in Firestore, set local state to match Firestore data
+        console.log('User already exists in Firestore');
+        const userData = userSnap.data();
+        dispatch(setUserData(userData));
+      } else {
+        // User does not exist, proceed with registration and data update
+        const docData = {  
+          uid: result.user.uid,
+          usertype: 'student',
+          firstName: result.user.displayName,
+          email: result.user.email,
+          password: "",
+          image: result.user.photoURL,
+        };
+  
+        await setDoc(doc(firestore, 'users', result.user.email), docData);
+        dispatch(setUserData(docData));
+      }
     } catch (error) {
       setError(error.message);
-   
-    }finally{
-      dispatch(setLoading(false))
+    } finally {
+      dispatch(setLoading(false));
     }
   };
+  
+  
 
   const [formData, setFormData] = useState({
     usertype: 'student',
@@ -91,7 +93,6 @@ export default function StudentRegistrationForm() {
       throw error;
     }
   };
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
@@ -127,6 +128,7 @@ export default function StudentRegistrationForm() {
   
         const userEmail = formData.email;
         await setDoc(userRef, docData);
+        dispatch(setUserLoginData(userCredential.user)); // Set user login data upon successful signup
         dispatch(setUserData({...docData, userEmail}));
         // history('/student/dashboard');
       }
