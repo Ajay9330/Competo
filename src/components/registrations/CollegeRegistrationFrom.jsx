@@ -40,7 +40,7 @@ export default function CollegeRegistrationForm() {
         const docData = {  
           uid: result.user.uid,
           usertype: 'college',
-          firstName: result.user.displayName,
+          CollegeName: result.user.displayName,
           email: result.user.email,
           password: "",
           image: result.user.photoURL,
@@ -60,8 +60,7 @@ export default function CollegeRegistrationForm() {
 
   const [formData, setFormData] = useState({
     usertype: 'college',
-    firstName: '',
-    lastName: '',
+    CollegeName: '',
     email: '',
     password: '',
     image: null,
@@ -115,7 +114,7 @@ export default function CollegeRegistrationForm() {
         );
   
         await updateProfile(userCredential.user, {
-          displayName: `${formData.firstName} ${formData.lastName}`,
+          displayName: `${formData.CollegeName}`,
           photoURL: imageURL,
           usertype: formData.usertype,
         });
@@ -165,28 +164,19 @@ export default function CollegeRegistrationForm() {
             <img className=' h-40 mx-auto md:m-0 rounded-full w-40 border-2 border-gray-300 transition-all cursor-pointer shadow-sm shadow-black hover:shadow-md  block col-span-1' src={formData.image?URL.createObjectURL(formData.image):""} alt="" />
             <span className='top-0 hidden md:block'>{formData.email}</span>
             <div className='hidden md:block h-1 w-full bg-gray-300'></div>
-            <p className='w-full text-wrap break-words overflow-auto text-center text-4xl font-medium hidden md:block '>{formData.firstName+" "+formData.lastName}</p>
+            <p className='w-full text-wrap break-words overflow-auto text-center text-4xl font-medium hidden md:block '>{formData.CollegeName}</p>
         </div>
            <form className="pt-0 p-6 space-y-6 grow-0.3" onSubmit={handleSubmit}>
           <div className="mt-8 content-center">
               <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                FirstName
+                CollegeName
               </label>
               <input className="w-full content-center text-base px-4 py-2 border-b  border-gray-300 focus:outline-none focus:border-indigo-500"      type="text"
-          name="firstName"
-          value={formData.firstName}
+          name="CollegeName"
+          value={formData.CollegeName}
           onChange={handleChange}/>
             </div>
 
-            <div className="mt-8 content-center">
-              <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                LastName
-              </label>
-              <input className="w-full content-center text-base px-4 py-2 border-b  border-gray-300 focus:outline-none focus:border-indigo-500" type="text"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}/>
-            </div>
             <div className="relative">
             
               <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Email</label>
