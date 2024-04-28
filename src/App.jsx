@@ -18,11 +18,12 @@ import CreateCompPage from './pages/CreateCompPage';
 import ApplyPage from './pages/ApplyPage';
 import Dash from './pages/Dash';
 import Message from './components/common/Message';
-
+import bg from './assets/bg/bg3.jpg'
+import Showuser from './pages/Showuser';
 function LayOut() {
   return (
     <>
-      <div className={""} style={{ backgroundSize: "contain" }}>
+      <div className="bg-fixed min-h-screen bg-gradient-to-br from-[#b0c8f5] from-50% via-blue-300 via-[percentage:20%_30%] to-blue-50 to-100%" style={{ backgroundSize: "cover", }}>
         <Header />
         <div className="px-2 flex">
           <Outlet />
@@ -116,19 +117,22 @@ export default function App() {
         {user ? (
           <>
             <Route path='/' element={<LayOut />}>
+               <Route path='user:id' element={<Showuser/>} />
               <Route path='login' element={<Navigate to="/dashboard" />} />
               <Route path='signup' element={<Navigate to="/dashboard" />} />
               <Route index element={<Home />} />
               <Route path='search' element={<Search />} />
               <Route path='competitions' element={<Competition />} />
               <Route path='view-comp' element={<ViewComp />} />
+              <Route path='competitions/:id' element={<ViewComp/>} /> {/* Specify the component for this route */}
+
               <Route path='dashboard' element={<Dash />} />
               {userdata && userdata.usertype === "student" && (
                 <>
                   <Route path='my-comp' element={<ApplyPage />} />
                 </>
               )}
-              {userdata && userdata.usertype === "student" && (
+              {userdata && userdata.usertype === "college" && (
                 <>
                   <Route path='create-comp' element={<CreateCompPage />} />
                 </>
@@ -143,6 +147,7 @@ export default function App() {
               <Route index element={<Home />} />
               <Route path='search' element={<Search />} />
               <Route path='competitions' element={<Competition />} />
+              <Route path='competitions/:id' element={<ViewComp/>} /> {/* Specify the component for this route */}
               <Route path='view-comp' element={<ViewComp />} />
               <Route path='*' element={<Registration />} />
             </Route>

@@ -3,7 +3,7 @@ import React from 'react'
 function Footer() {
   return (
  
-    <footer className="  left-0  w-full p-4 bg-black border-t border-gray-200 shadow md:flex md:items-center md:justify-between md:p-6  dark:border-gray-600">
+    <footer className=" self-end left-0  w-full p-4 bg-black border-t border-gray-200 shadow md:flex md:items-center md:justify-between md:p-6  dark:border-gray-600">
     <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="#" className="hover:underline">Competo™</a>. All Rights Reserved by Pryzmity.
     </span>
     <ul className=" flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">

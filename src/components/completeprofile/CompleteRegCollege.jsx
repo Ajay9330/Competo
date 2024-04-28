@@ -8,7 +8,7 @@ export default function CollegeRegForm() {
   const dispatch = useDispatch();
   const initialData = useSelector(selectUserdata);
   const [formData, setFormData] = useState({
-    collegeName: initialData.collegeName || '',
+    collegeName: initialData.CollegeName || '',
     email: initialData.email || '',
     phoneNumber: initialData.phoneNumber || '',
     address: initialData.address || '',

@@ -41,6 +41,7 @@ export default function studentRegistrationForm() {
           uid: result.user.uid,
           usertype: 'student',
           firstName: result.user.displayName,
+          fullName:result.user.displayName,
           email: result.user.email,
           password: "",
           image: result.user.photoURL,
@@ -123,6 +124,7 @@ export default function studentRegistrationForm() {
         const docData = {  
           uid: userCredential.user.uid,
           ...formData,
+          fullName:userCredential.user.displayName,
           image: imageURL, // Store the download URL instead of the File object
         };
   

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUserdata, setUserData, setMessage, setMessageType } from '../../store';
-import { collection, doc, updateDoc, setDoc, getDoc } from 'firebase/firestore';
+import { setMessage, setMessageType, selectUserdata, setUserData } from '../../store';
+import { collection, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { firestore } from '../../firebaseconfig/firebaseconfig';
 
-export default function CompleteRegStudent() {
+export default function StudentRegForm() {
   const dispatch = useDispatch();
   const initialData = useSelector(selectUserdata);
   const [formData, setFormData] = useState({
-    fullName: initialData.firstName || '',
+    fullName: initialData.fullName || '',
     email: initialData.email || '',
     phoneNumber: initialData.phoneNumber || '',
     address: initialData.address || '',
@@ -22,12 +22,34 @@ export default function CompleteRegStudent() {
     college: initialData.college || '',
     department: initialData.department || '',
   });
+
   const [isDataChanged, setIsDataChanged] = useState(false);
+  const [profileCompleted, setProfileCompleted] = useState(false);
 
   useEffect(() => {
-    const { firstName, email, phoneNumber, address, city, state, zipCode, country, year, course, contact, college, department } = initialData;
+    const allFieldsFilled = Object.values(formData).every((value) => value.trim() !== '');
+    setProfileCompleted(allFieldsFilled);
+  }, [formData]);
+
+  useEffect(() => {
+    const {
+      fullName,
+      email,
+      phoneNumber,
+      address,
+      city,
+      state,
+      zipCode,
+      country,
+      year,
+      course,
+      contact,
+      college,
+      department,
+    } = initialData;
+
     const hasChanged = (
-      formData.fullName !== firstName ||
+      formData.fullName !== fullName ||
       formData.email !== email ||
       formData.phoneNumber !== phoneNumber ||
       formData.address !== address ||
@@ -41,15 +63,9 @@ export default function CompleteRegStudent() {
       formData.college !== college ||
       formData.department !== department
     );
+
     setIsDataChanged(hasChanged);
   }, [formData, initialData]);
-
-  const [profileCompleted, setProfileCompleted] = useState(false);
-
-  useEffect(() => {
-    const allFieldsFilled = Object.values(formData).every((value) => value.trim() !== '');
-    setProfileCompleted(allFieldsFilled);
-  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,27 +75,24 @@ export default function CompleteRegStudent() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userProfileRef = doc(collection(firestore, 'users'), initialData.email);
-      await updateDoc(userProfileRef, formData);
+      const userRef = doc(collection(firestore, 'users'), initialData.email);
+      await updateDoc(userRef, formData);
 
       const updatedUserData = { ...initialData, ...formData };
       dispatch(setUserData(updatedUserData));
 
-      await setDoc(userProfileRef, { profileCompleted }, { merge: true });
+      await setDoc(userRef, { profileCompleted }, { merge: true });
 
-      console.log('Profile completion status updated in Firestore:', profileCompleted);
-      console.log('Data updated successfully');
       dispatch(setMessageType('success'));
-      dispatch(setMessage('Data updated successfully'));
+      dispatch(setMessage('Profile updated successfully'));
     } catch (error) {
-      console.error('Error updating data in Firestore:', error);
-      dispatch(setMessage('Error updating data'));
+      dispatch(setMessage('Error updating profile'));
       dispatch(setMessageType('error'));
     }
   };
 
   return (
-    <form onSubmit={onSubmit} className="w-full grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-12 p-4 rounded-lg shadow-md">
+    <form onSubmit={onSubmit} className="w-full grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-12 p-4 rounded-lg shadow-md">
       {Object.keys(formData).map((key) => (
         <div key={key} className="flex flex-col">
           <label htmlFor={key} className="text-gray-700 font-bold mb-2">
@@ -98,7 +111,7 @@ export default function CompleteRegStudent() {
       <button
         type="submit"
         disabled={!isDataChanged}
-        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline self-center md:self-end ${!isDataChanged ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline self-center ${!isDataChanged ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         Submit
       </button>
