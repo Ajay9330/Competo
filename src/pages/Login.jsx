@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
 import { app,auth } from '../firebaseconfig/firebaseconfig';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from 'firebase/auth';
-import { setLoading, setUserData, setUserLoginData } from '../store'; 
+import { setLoading, setMessage, setMessageType, setUserData, setUserLoginData } from '../store'; 
 import {useNavigate,Link} from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from '../firebaseconfig/firebaseconfig'; // Import the firestore instance
@@ -40,6 +40,8 @@ const Login = () => {
       // navigate('./dashboard');
     } catch (error) {
       setError(error.message);
+      dispatch(setMessage(error.message));
+      dispatch(setMessageType("error"));
     } finally {
       dispatch(setLoading(false));
     }

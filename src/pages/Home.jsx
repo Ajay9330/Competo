@@ -10,7 +10,12 @@ export default function Home() {
     <div className="container mx-auto p-4">
       <header className="text-center mt-8 mb-12 flex flex-col sm:flex-row items-center">
         <div>
-        <h1 className="text-6xl font-bold mb-4 text-blue-700 duration-700 hover:hue-rotate-180 lg:text-9xl">Welcome to Competo</h1>
+        <h1 className="text-6xl font-bold mb-4 text-blue-700 duration-700 hover:hue-rotate-180 lg:text-9xl">Welcome to               <span >C</span>
+              <span  style={{
+                background: 'linear-gradient(to right, #f32170, #ff6b08,#cf23cf, #eedd44)',
+                WebkitTextFillColor: 'transparent',
+                WebkitBackgroundClip: 'text'
+              }}>ompeto</span></h1>
         <p className="text-lg md:text-3xl font-bold pt-10 text-gray-800  hover:hue-rotate-380">Explore, Learn, Share, Grow...</p>
         </div>
           <div>
@@ -45,9 +50,9 @@ export default function Home() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4 text-gray-700">Get Started Today</h2>
         <p className="text-lg text-gray-800 mb-4">Ready to explore all that Competo has to offer? Sign up now to get started!</p>
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <button className="btn-signup bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:bg-opacity-85">Sign Up</button>
-        </div>
+        </div> */}
       </section>
       <footer className="text-center pb-8">
         <p className="text-lg text-gray-800">&copy; 2024 Competo. All rights reserved.</p>

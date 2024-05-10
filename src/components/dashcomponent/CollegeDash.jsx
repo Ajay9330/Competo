@@ -11,7 +11,7 @@ export default function StudentDash() {
     <>
       {collegeData?.profileCompleted &&   
       <div className="container mx-auto px-4 py-8 ">
-        <div className='flex items-center w-full rounded-full mb-8 border-[2px] border-blue-200 '>
+        <div className='flex items-center w-full rounded-full mb-8 border-[2px] border-blue-200  '>
         <div className='rounded-full h-20 w-20  min-h-20 min-w-20 object-fill border-2  bg-blue-100'><img className=' w-full h-full object-cover rounded-full ' src={collegeData.image} alt="" srcset="" /></div>
             <p
                     class="bg-blue-50 rounded-sm rounded-r-full h-fit p-2 font-black text-center items-center flex justify-center flex-1 mx-5  text-4xl sm:text-5xl  ">

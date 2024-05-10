@@ -25,8 +25,8 @@ export const loadingSlice = createSlice({
   name: 'loading',
   initialState: {
     loading: false,
-    message: null,
-    messageType: null, // can be 'error', 'success', or 'normal'
+    message : "",
+    messageType : "" // can be 'error', 'success', or 'normal'
   },
   reducers: {
     setLoading: (state, action) => {

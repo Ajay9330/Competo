@@ -13,9 +13,10 @@ const Message = () => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
-      <div className={`bg-white p-4 rounded shadow-lg ${messageType === 'error' ? 'text-red-600' : (messageType === 'success' ? 'text-green-600' : 'text-black')}`}>
-        <p>{message}</p>
-        <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onClick={handleClose}>OK</button>
+      <div className={`w-[500px] bg-opacity-50 backdrop-blur-3xl h-52 p-4 rounded shadow-lg flex justify-around items-center flex-col text-black ${messageType === 'error' ? 'bg-red-500 text-white' : (messageType === 'success' ? 'bg-green-600 text-white' : (messageType === '' ? 'bg-white' : 'bg-white'))}`}>
+
+        <p className='text-2xl p-3  capitalize w-full text-center font-bold'>{message}</p>
+        <button className="mt-2  px-4 py-[2px] bg-blue-500 text-white w-fit rounded hover:bg-blue-600" onClick={handleClose}>OK</button>
       </div>
     </div>
   );

@@ -96,9 +96,9 @@ export default function ViewComp() {
     
     return (
       <div className="mx-auto w-full  text-gray-800">
-          <div className="container mx-auto px-4 py-8">
-            <div className='border-blue-800 border-2'>
-                <div className=" bg-zinc-600 p-6 py-2 flex items-center justify-between border-b-[2px] border-zinc-700 ">
+          <div className="container mx-auto  ">
+            <div className='  '>
+                <div className=" bg-zinc-900 p-6 py-2 flex items-center justify-between border-b-[2px] border-zinc-700 ">
                       <div>
                           <img src={collegeInfo.collegeimg} alt="College Logo" className="w-12 h-12 rounded-full" />
                       </div>
@@ -110,7 +110,7 @@ export default function ViewComp() {
                   <div className="bg-cover bg-center h-64 relative" style={{backgroundImage: `url(${compinfo.compimg})`}}>
                       <div className="absolute inset-0 bg-black opacity-40"></div>
                       <div className="absolute inset-0 flex items-center justify-center">
-                          <h1 className="text-white text-3xl font-semibold text-center">{compinfo.title}</h1>
+                          <h1 className="text-green-100 shadow-blue-50  drop-shadow-2xl  text-3xl md:text-6xl font-bold text-center">{compinfo.title}</h1>
                       </div>
                   </div>
             </div>
@@ -118,7 +118,7 @@ export default function ViewComp() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
                 <div>
                     <div className="border p-6 rounded-lg shadow-md bg-white">
-                        <h2 className="text-lg font-semibold mb-4">Details</h2>
+                        <h2 className="text-3xl font-bold mb-4">Details</h2>
                         <p className="mb-2"><strong className="font-semibold">Start Registration Date:</strong> {compinfo.startRegistrationDate}</p>
                         <p className="mb-2"><strong className="font-semibold">End Registration Date:</strong> {compinfo.endRegistrationDate}</p>
                         <p className="mb-2"><strong className="font-semibold">Competition Date:</strong> {compinfo.competitionDate}</p>
@@ -129,7 +129,7 @@ export default function ViewComp() {
                 </div>
                 <div>
                     <div className="border p-6 rounded-lg shadow-md bg-white">
-                        <h2 className="text-lg font-semibold mb-4">Additional Information</h2>
+                        <h2 className="text-3xl font-bold mb-4">Additional Information</h2>
                         <p className="mb-2"><strong className="font-semibold">Prize:</strong> {compinfo.prize}</p>
                         <p className="mb-2"><strong className="font-semibold">Organizer-team:</strong> {compinfo.organizerteam}</p>
                         <p className="mb-2"><strong className="font-semibold">College ID:</strong> {compinfo.collegeId}</p>

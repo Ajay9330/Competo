@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectUserdata } from '../store';
 import StudentDash from '../components/dashcomponent/StudentDash';
 import CollegeDash from '../components/dashcomponent/CollegeDash';
-
+import l from '../assets/bg/bg2.webp';
 export default function Dash() {
   const data = useSelector(selectUserdata);
   
@@ -22,8 +22,10 @@ export default function Dash() {
 
   return (
     <>
-      {userType === "student" && <StudentDash />}
-      {userType === "college" && <CollegeDash />}
+      <div className='w-full bg-cover bg-fixed   bg-[#959bf5]' style={{backgroundImage:`url(${l})`}}>
+          {userType === "student" && <StudentDash />}
+          {userType === "college" && <CollegeDash />}
+      </div>
     </>
   );
 }

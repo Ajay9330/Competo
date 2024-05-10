@@ -23,12 +23,12 @@ import Showuser from './pages/Showuser';
 function LayOut() {
   return (
     <>
-      <div className="bg-fixed min-h-screen bg-gradient-to-br from-[#b0c8f5] from-50% via-blue-300 via-[percentage:20%_30%] to-blue-50 to-100%" style={{ backgroundSize: "cover", }}>
+      <div className="bg-fixed  bg-gradient-to-br from-[#b0c8f5] from-50% via-blue-300 via-[percentage:20%_30%] to-blue-50 to-100%" style={{ backgroundSize: "cover", }}>
         <Header />
-        <div className="px-2 flex">
+        <div className="min-h-[calc(100vh-150px)] flex">
           <Outlet />
         </div>
-        <Footer />
+        <Footer  />
       </div>
     </>
   );
@@ -55,6 +55,11 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!navigator.onLine) {
+          dispatch(setMessage("Internet Connection Error!"));
+          dispatch(setMessageType("error"));
+          setLoading(false);
+        }
         dispatch(setLoading(true));
         const authUser = await new Promise((resolve, reject) => {
           const unsubscribe = onAuthStateChanged(auth, (user) => {

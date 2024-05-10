@@ -154,13 +154,13 @@ export default function CollegeRegistrationForm() {
           </div>
           <div className="flex items-center justify-center space-x-2">
             <span className="h-px w-16 bg-gray-200"></span>
-            <span className="text-gray-300 font-normal">or continue with</span>
+            <span className="text-black font-normal">or continue with</span>
             <span className="h-px w-16 bg-gray-200"></span>
           </div>
          
         </div>
 
-        <div className='md:w-96 pt-4 md:border-2 md:border-blue-600 hover:border-blue-900 md:grid grid-cols-1 justify-items-center md:h-96 rounded-3xl hover:shadow-xl'>
+        <div  className='bg-white  md:w-96 pt-4 md:border-2 md:border-blue-600 hover:border-blue-900 md:grid grid-cols-1 justify-items-center md:h-96 rounded-3xl hover:shadow-xl'>
             <img className=' h-40 mx-auto md:m-0 rounded-full w-40 border-2 border-gray-300 transition-all cursor-pointer shadow-sm shadow-black hover:shadow-md  block col-span-1' src={formData.image?URL.createObjectURL(formData.image):""} alt="" />
             <span className='top-0 hidden md:block'>{formData.email}</span>
             <div className='hidden md:block h-1 w-full bg-gray-300'></div>
