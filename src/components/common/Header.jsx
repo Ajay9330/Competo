@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { signOut, getAuth } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearUser, selectLoading, selectUser, setLoading } from '../../store';
+import { clearUser, selectLoading, selectUser, selectUserdata, setLoading } from '../../store';
 import logo from '../../assets/logo_main.png';
 function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const navigate = useNavigate();
+  const usertype=useSelector(selectUserdata);
   const dispatch = useDispatch();
   const isloggedin = useSelector(selectUser);
   const auth = getAuth();
@@ -26,8 +27,8 @@ function Header() {
   };
   return (
     <>
-      <nav className="sticky top-0 py-1 backdrop-blur-xl bg-gray-600 backdrop-contrast-300 bg-opacity-20 z-20 w-full  border-b-1 border-blue-900">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4  top-0 w-full ">
+      <nav className="sticky top-0 py-1 backdrop-blur-xl  bg-gray-600 backdrop-contrast-300 bg-opacity-20 z-20 w-full  border-b-1 border-blue-900">
+        <div className=" flex flex-wrap items-center justify-between mx-auto px-4  top-0 w-full ">
           <NavLink
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -49,7 +50,7 @@ function Header() {
             onClick={toggleNav}
           >
             <svg
-              className={`h-6 w-6 ${isNavOpen ? "absolute top-10 z-50 right-10 text-white" : "text-black "}`}
+              className={`h-12 w-12 ${isNavOpen ? "absolute top-10 z-50 right-10 text-white" : "text-black "}`}
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -88,6 +89,31 @@ function Header() {
                   Dashboard
                 </NavLink>
               </li>
+              {usertype?.usertype=="college" &&
+              <div className='flex gap-4'>
+                  <li>
+                    <NavLink
+                      to="/create-comp"
+                      className={` navelem`}
+                      onClick={toggleNav}
+                    >
+                      Create
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/manage-comp"
+                      className={` navelem`}
+                      onClick={toggleNav}
+                    >
+                      Manage
+                    </NavLink>
+                  </li>
+              </div>
+        
+            
+              }
+              
               <div onClick={() => { handleLogout(); toggleNav() }}
             className={` flex authbtn cursor-pointer ${isloggedin ? "flex" : 'hidden'}`}>
 

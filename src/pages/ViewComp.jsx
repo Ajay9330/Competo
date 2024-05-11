@@ -115,7 +115,7 @@ export default function ViewComp() {
                   </div>
             </div>
              
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 p-12">
                 <div>
                     <div className="border p-6 rounded-lg shadow-md bg-white">
                         <h2 className="text-3xl font-bold mb-4">Details</h2>
@@ -139,12 +139,12 @@ export default function ViewComp() {
                     </div>
                 </div>
             </div>
-            <div className='w-full  justify-center p-4 flex items-center'>
+            {/* <div className='w-full  justify-center p-4 flex items-center'>
             <button className="bg-blue-500 text-white px-4 py-2 rounded-md  hover:bg-blue-600">Apply Now</button>
 
-            </div>
+            </div> */}
 
-            <div className="border p-6 rounded-lg shadow-md bg-white ">
+            <div className="border m-6 p-6 rounded-lg shadow-md bg-white ">
                 <p className="mb-2"><strong className="font-semibold">Description:</strong> {compinfo.description}</p>
                 <div>
                   <h2 className="text-lg font-semibold mb-4">Rules</h2>

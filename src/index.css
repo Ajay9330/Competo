@@ -1,10 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* styles.css */
+:root {
+  --image-url: none;
+}
 
 @layer components {
   .navelem {
-    @apply rounded-3xl border-slate-700 transition-all block my-2 mx-3 text-white relative after:content-[""]
+    @apply border-[1px]  border-transparent rounded-3xl  transition-all block my-2 mx-3 text-white relative after:content-[""]
   }
 
   .authbtn {
@@ -12,12 +16,12 @@
   }
 
   .navelem.active {
-    @apply text-blue-900 border-[1px] bg-white px-3 mx-0 my-1 py-1;
+    @apply text-blue-900 border-slate-200 bg-white px-3 mx-0 my-1 py-1;
   }
 
 
   .navelem:hover:not(.navelem.active) {
-    @apply px-3 mx-0 my-1 py-1 border-[1px] bg-slate-800/35;
+    @apply px-3 mx-0 my-1 py-1 border-slate-200 bg-slate-800/35;
 
   }
 

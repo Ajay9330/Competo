@@ -20,6 +20,7 @@ import Dash from './pages/Dash';
 import Message from './components/common/Message';
 import bg from './assets/bg/bg3.jpg'
 import Showuser from './pages/Showuser';
+import ManageCompetitions from './pages/ManageCompetititons';
 function LayOut() {
   return (
     <>
@@ -139,6 +140,7 @@ export default function App() {
               )}
               {userdata && userdata.usertype === "college" && (
                 <>
+                  <Route path='manage-comp' element={<ManageCompetitions/>}/>
                   <Route path='create-comp' element={<CreateCompPage />} />
                 </>
               )}
